@@ -11,17 +11,6 @@ const getCategory = async (req: Request, res: Response, next: NextFunction)=>{
     next(err);
   }
 }
-const getCategoryPublic = async(req:Request, res: Response, next: NextFunction)=>{
-  try{
-    const result = await categoryService.getCategoryPublic();
-    res.status(201).json({
-      result
-    });
-  }catch(err){
-    next(err)
-  }
-}
-
 const createCategory = async (req: Request, res: Response, next: NextFunction)=>{
   try{
     const result = await categoryService.createCategory(req.body);
@@ -61,5 +50,4 @@ export const categoryController = {
   createCategory,
   updateCategory,
   deleteCategory,
-  getCategoryPublic
 }

@@ -1,8 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { tutorService } from "./tutor.service";
+import { number } from "better-auth/*";
 
 const getTutorProfile = async(req: Request, res: Response, next: NextFunction)=>{
   try{
+    // const {search} = req.params;
+    // const searchString = typeof search === 'string' ? search : undefined;
+    // const rating = req.params.rating as number | undefined;
+    // const price = req.params.price  as number | undefined;
+    // const category = req.params.category as string | undefined;
     const result = await tutorService.getTutorProfile();
     res.status(200).json({
       result

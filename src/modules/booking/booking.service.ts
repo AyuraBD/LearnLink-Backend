@@ -125,8 +125,6 @@ const updateBooking = async(userId:string, paramId:string, data:Partial<Booking>
   });
 }
 
-
-
 export const bookingService = {
   getBooking,
   createBooking,

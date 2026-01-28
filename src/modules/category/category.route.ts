@@ -3,9 +3,7 @@ import { categoryController } from './category.controller';
 import authMiddleware, { UserRole } from '../../middleware/auth';
 const router = express.Router();
 
-router.get('/', authMiddleware(UserRole.ADMIN, UserRole.TUTOR), categoryController.getCategory);
-
-router.get('/', categoryController.getCategoryPublic);
+router.get('/', categoryController.getCategory);
 
 router.post('/create', authMiddleware(UserRole.ADMIN), categoryController.createCategory);
 

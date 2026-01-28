@@ -24,11 +24,11 @@ app.get('/', (req, res)=>{
   res.send(`Express server is running`)
 });
 
-app.use('/api/user', userRouter);
+app.use('/api/users', userRouter);
 app.use('/api/categories', categoryRouter)
 app.use('/api/tutors', tutorRouter);
-app.use('/api/booking', bookingRouter);
-app.use('/api/review', reviewRouter);
+app.use('/api/bookings', bookingRouter);
+app.use('/api/reviews', reviewRouter);
 app.use('/api/auth/', userRouter);
 
 

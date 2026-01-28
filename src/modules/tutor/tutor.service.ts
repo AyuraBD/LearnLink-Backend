@@ -1,25 +1,94 @@
 import { TutorProfile } from "../../../generated/prisma/client";
+import { TutorProfileWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma"
 import { UserRole } from "../../middleware/auth";
 
-const getTutorProfile = async()=>{
-  return await prisma.tutorProfile.findMany({
-    select:{
-      id:true,
-      bio:true,
-      hourlyRate:true,
+const getTutorProfile = async() => {
+  // const filterValues: TutorProfileWhereInput[] = [];
+  
+  // if(search){
+  //   filterValues.push({
+  //     OR:[
+  //       {
+  //         category: {
+  //           name: {
+  //             contains: search,
+  //             mode: 'insensitive'
+  //           }
+  //         }
+  //       },
+        // {
+        //   category: {
+        //     subject:{
+        //       contains: category,
+        //       mode: 'insensitive'
+        //     }
+        //   }
+        // },
+        // {
+        //   reviews:{
+        //     rating:{
+              
+        //     }
+        //   }
+        // }
+  //     ]
+  //   });
+  // }
+  
+  // if(rating){
+  //   filterValues.push({
+  //     rating: {
+  //       gte: rating  // greater than or equal to the rating
+  //     }
+  //   });
+  // }
+  
+  // if(price){
+  //   filterValues.push({
+  //     hourlyRate: {  // Changed from 'price' to 'hourlyRate' based on your select
+  //       lte: price  // less than or equal to the price
+  //     }
+  //   });
+  // }
+  
+  // if(category){
+  //   filterValues.push({
+  //     categoryId: category  // Assuming you have a categoryId foreign key
+  //   });
+  // }
+
+  const result = await prisma.tutorProfile.findMany({
+    // where: {
+    //   AND: filterValues  // Changed from 'searchValues' to 'filterValues'
+    // },
+    select: {
+      id: true,
+      bio: true,
+      hourlyRate: true,
       experience: true,
       availability: true,
-      category:{
-        select:{
+      category: {
+        select: {
           name: true,
           subject: true,
           description: true
         }
+      },
+      _count: {
+        select: {
+          reviews: true
+        }
+      },
+      reviews: {
+        select: {
+          rating: true,
+          comment: true
+        }
       }
     }
   });
-  
+  return result;
 }
 
 const getTutorDetails = async(id:string)=>{
