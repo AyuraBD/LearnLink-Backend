@@ -65,7 +65,44 @@ const createBooking = async(userId:string, paramId:string, data:Omit<Booking, 'i
   return result;
 }
 
+const updateBooking = async(userId:string, paramId:string, data:Partial<Booking>)=>{
+  const bookingData = await prisma.booking.findUnique({
+    where:{
+      id:paramId
+    },
+    select:{
+      id:true,
+      tutorId:true,
+      tutor:{
+        select:{
+          user:{
+            select:{
+              id:true,
+              role: true
+            }
+          }
+        }
+      }
+    }
+  });
+  if(bookingData?.tutor.user.role !== UserRole.TUTOR){
+    console.log("Unauthorized");
+  }
+  if(bookingData?.tutor.user.id !== userId){
+    throw new Error("Forbidden access");
+  }
+  return await prisma.booking.update({
+    where:{
+      id: paramId
+    },
+    data
+  });
+}
+
+
+
 export const bookingService = {
   getBooking,
-  createBooking
+  createBooking,
+  updateBooking
 }

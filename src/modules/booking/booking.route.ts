@@ -7,6 +7,8 @@ router.get("/get", authMiddleware(UserRole.STUDENT, UserRole.TUTOR), bookingCont
 
 router.post("/create/:id", authMiddleware(UserRole.STUDENT), bookingController.createBooking);
 
+router.patch("/update/:id", authMiddleware(UserRole.TUTOR), bookingController.updateBooking);
+
 
 // router.patch("/create/:id", authMiddleware(UserRole.STUDENT), bookingController.createBooking);
 
