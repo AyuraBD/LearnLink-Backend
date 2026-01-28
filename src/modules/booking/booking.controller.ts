@@ -4,7 +4,6 @@ import { bookingService } from "./booking.service";
 const getBooking = async(req: Request, res: Response, next: NextFunction)=>{
   try{
     const user = req.user;
-    console.log(user)
     const result = await bookingService.getBooking(user?.id as string, user?.role as string);
     res.status(200).json({
       result
@@ -13,6 +12,7 @@ const getBooking = async(req: Request, res: Response, next: NextFunction)=>{
     next(err);
   }
 }
+
 const createBooking = async(req: Request, res: Response, next: NextFunction)=>{
   try{
     const user = req.user;

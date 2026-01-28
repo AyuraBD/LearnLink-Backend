@@ -3,7 +3,7 @@ import { bookingController } from './booking.controller';
 import authMiddleware, { UserRole } from '../../middleware/auth';
 const router = express.Router();
 
-router.get("/get", authMiddleware(UserRole.STUDENT, UserRole.TUTOR), bookingController.getBooking);
+router.get("/get", authMiddleware(UserRole.ADMIN, UserRole.STUDENT, UserRole.TUTOR), bookingController.getBooking);
 
 router.post("/create/:id", authMiddleware(UserRole.STUDENT), bookingController.createBooking);
 

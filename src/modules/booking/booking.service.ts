@@ -3,7 +3,32 @@ import { prisma } from "../../lib/prisma"
 import { UserRole } from "../../middleware/auth";
 
 const getBooking = async(userId:string, userRole: string)=>{
-  if(userRole === UserRole.TUTOR){
+  if(userRole === UserRole.ADMIN){
+    const bookingForAdmin = await prisma.booking.findMany({
+      select:{
+        sessionDate:true,
+        status: true,
+        student:{
+          select:{
+            name:true,
+            phone:true
+          }
+        },
+        tutor:{
+          select:{
+            hourlyRate:true,
+            experience:true,
+            category:{
+              select:{
+                subject:true
+              }
+            }
+          }
+        }
+      }
+    });
+    return bookingForAdmin;
+  } else if(userRole === UserRole.TUTOR){
     const tutorData = await prisma.tutorProfile.findUniqueOrThrow({
       where:{
         userId
@@ -28,8 +53,7 @@ const getBooking = async(userId:string, userRole: string)=>{
       }
     });
     return bookingForTutor;
-  }
-  if(userRole === UserRole.STUDENT){
+  }else if(userRole === UserRole.STUDENT){
     const bookingForStudent = await prisma.booking.findMany({
       where:{
         studentId: userId
@@ -50,6 +74,8 @@ const getBooking = async(userId:string, userRole: string)=>{
       }
     });
     return bookingForStudent;
+  } else{
+    throw new Error("Unauthorized");
   }
 }
 
