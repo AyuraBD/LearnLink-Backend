@@ -25,10 +25,12 @@ app.get('/', (req, res)=>{
 });
 
 app.use('/api/user', userRouter);
-app.use('/api/category', categoryRouter)
-app.use('/api/tutor', tutorRouter);
+app.use('/api/categories', categoryRouter)
+app.use('/api/tutors', tutorRouter);
 app.use('/api/booking', bookingRouter);
 app.use('/api/review', reviewRouter);
+app.use('/api/auth/', userRouter);
+
 
 app.use(errorHandler);
 app.use(notFound);

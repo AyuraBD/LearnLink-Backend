@@ -22,6 +22,30 @@ const getTutorProfile = async()=>{
   
 }
 
+const getTutorDetails = async(id:string)=>{
+  return await prisma.tutorProfile.findUniqueOrThrow({
+    where:{
+      id
+    },
+    select:{
+      id:true,
+      bio:true,
+      hourlyRate:true,
+      experience: true,
+      availability: true,
+      category:{
+        select:{
+          name: true,
+          subject: true,
+          description: true
+        }
+      },
+      reviews:true
+    }
+  });
+  
+}
+
 const createTutorProfile = async(userId: string, data:Omit<TutorProfile, 'id' | 'createdAt' | 'updatedAt' | 'userId'>)=>{
   const userData = await prisma.user.findUniqueOrThrow({
     where:{
@@ -112,5 +136,6 @@ export const tutorService = {
   getTutorProfile,
   createTutorProfile,
   updateTutorProfile,
-  deleteTutorProfile
+  deleteTutorProfile,
+  getTutorDetails
 }

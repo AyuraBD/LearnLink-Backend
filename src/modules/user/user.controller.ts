@@ -12,6 +12,18 @@ const getUser = async(req: Request, res: Response, next: NextFunction)=>{
   }
 }
 
+const getMyUser = async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const user = req.user;
+    const result = await userService.getMyUser(user?.id as string);
+    res.status(200).json({
+      result
+    })
+  }catch(err){
+    next(err);
+  }
+}
+
 const updateUser = async(req: Request, res: Response, next: NextFunction)=>{
   try{
     const {id}= req.params;
@@ -27,5 +39,6 @@ const updateUser = async(req: Request, res: Response, next: NextFunction)=>{
 
 export const userController = {
   getUser,
-  updateUser
+  updateUser,
+  getMyUser
 }

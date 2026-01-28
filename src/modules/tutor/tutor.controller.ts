@@ -12,6 +12,18 @@ const getTutorProfile = async(req: Request, res: Response, next: NextFunction)=>
   }
 }
 
+const getTutorDetails = async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const {id} = req.params;
+    const result = await tutorService.getTutorDetails(id as string);
+    res.status(200).json({
+      result
+    });
+  }catch(err){
+    next(err);
+  }
+}
+
 const createTutorProfile = async(req: Request, res: Response, next: NextFunction)=>{
   try{
     const user = req.user;
@@ -52,5 +64,6 @@ export const tutorController = {
   getTutorProfile,
   createTutorProfile,
   updateTutorProfile,
-  deleteTutorProfile
+  deleteTutorProfile,
+  getTutorDetails
 }

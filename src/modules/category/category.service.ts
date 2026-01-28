@@ -5,6 +5,9 @@ const getCategory = async () =>{
   const res = await prisma.category.findMany();
   return res;
 }
+const getCategoryPublic = async()=>{
+  return await prisma.category.findMany();
+}
 const createCategory = async(data: Omit<Category, 'id' | 'createdAt'>)=>{
   const res = await prisma.category.create({
     data
@@ -20,7 +23,6 @@ const updateCategory = async(paramId:string,data: Partial<Category>)=>{
     data
   });
 }
-
 const deleteCategory = async(paramId:string)=>{
   return await prisma.category.delete({
     where:{
@@ -33,5 +35,6 @@ export const categoryService = {
   createCategory,
   getCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  getCategoryPublic
 }
