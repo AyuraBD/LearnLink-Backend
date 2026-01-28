@@ -22,14 +22,14 @@ export const auth = betterAuth({
     trustedOrigins: [process.env.APP_URL!],
     user:{
         additionalFields:{
+            role: {
+                type: "string",
+                required: true,
+                validate: (value:string) => ["STUDENT", "TUTOR"].includes(value) || "Invalid"
+            },
             phone:{
                 type: "string",
                 required: false,
-            },
-            status: {
-                type: "string",
-                defaultValue: "ACTIVE",
-                required: false
             }
         }
     },
@@ -43,7 +43,7 @@ export const auth = betterAuth({
         autoSignInAfterVerification: true,
         sendVerificationEmail: async ({user, url, token})=>{
             try{
-                console.log("User:", user, "URL:", url, "Token", token);
+                // console.log("User:", user, "URL:", url, "Token", token);
                 const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`
                 const info = await transporter.sendMail({
                 from: '"LearnLink" <LearnLink@gmail.com>',
@@ -107,7 +107,7 @@ export const auth = betterAuth({
                             </head>
                             <body>
                             <div class="container">
-                                <div class="logo">Prisma Blog App</div>
+                                <div class="logo">Learn Link</div>
 
                                 <div class="title">Verify your email</div>
 
@@ -127,15 +127,15 @@ export const auth = betterAuth({
                                 <div class="footer">
                                 If you didn’t request this, you can ignore it. This link expires soon for security reasons.
                                 <br /><br />
-                                — Prisma Blog App team
+                                — Learn Link team
                                 </div>
                             </div>
                             </body>
                             </html>`, // HTML version of the message
                         });
-                        console.log("Verification Info", info)
+                        // console.log("Verification Info", info)
             }catch(err:any){
-                console.error(err.message);
+                // console.error(err.message);
                 throw new Error(err.message);
             }
         }

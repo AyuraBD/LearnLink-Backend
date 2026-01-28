@@ -1,29 +1,37 @@
 model User {
-  id            String    @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean  @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  role Role
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  role          Role
+  status        Status   @default(ACTIVE)
+  phone         String?
 
-  bookings Booking[]
+  bookings      Booking[]
   tutorProfiles TutorProfile[]
-  reviews Review[]
+  reviews       Review[]
 
-  sessions      Session[]
-  accounts      Account[]
+  sessions Session[]
+  accounts Account[]
 
   @@unique([email])
   @@map("user")
 }
-enum Role{
+
+enum Role {
   ADMIN
   TUTOR
   STUDENT
 }
 
+enum Status {
+  ACTIVE
+  BAN
+  UNBAN
+}
 
 model Session {
   id        String   @id

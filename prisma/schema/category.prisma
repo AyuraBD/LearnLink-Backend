@@ -1,9 +1,9 @@
 model Category {
-  id        String         @id @default(uuid())
-  name      String         @unique
+  id          String  @id @default(uuid())
+  name        String
+  subject     String
   description String?
 
-  tutors    TutorProfile[] @relation("TutorCategories")
-
-  createdAt DateTime       @default(now())
+  tutor TutorProfile[]
+  createdAt DateTime @default(now())
 }

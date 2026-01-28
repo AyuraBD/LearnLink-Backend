@@ -1,16 +1,16 @@
 model Booking {
-  id          String      @id @default(uuid())
+  id          String        @id @default(uuid())
   sessionDate DateTime
   status      BookingStatus @default(PENDING)
 
-  studentId   String
-  tutorId     String
+  studentId String
+  tutorId   String
 
-  student     User        @relation(fields: [studentId], references: [id])
-  tutor       TutorProfile @relation(fields: [tutorId], references: [id])
+  student User         @relation(fields: [studentId], references: [id])
+  tutor   TutorProfile @relation(fields: [tutorId], references: [id])
 
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum BookingStatus {

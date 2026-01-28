@@ -38,8 +38,8 @@ const authMiddleware = (...roles:UserRole[])=>{
       }
       req.user = {
         id: session.user.id,
-        email: session.user.id,
-        role: session.user.id,
+        email: session.user.email,
+        role: session.user.role,
         emailVerified: session.user.emailVerified
       }
       if(roles.length && !roles.includes(req.user.role as UserRole)){
