@@ -7,6 +7,7 @@ import { notFound } from "./middleware/notFound";
 import { tutorRouter } from "./modules/tutor/tutor.route";
 import { categoryRouter } from "./modules/category/category.route";
 import { bookingRouter } from "./modules/booking/booking.route";
+import { reviewRouter } from "./modules/review/review.route";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.get('/', (req, res)=>{
 app.use('/api/category', categoryRouter)
 app.use('/api/tutor', tutorRouter);
 app.use('/api/booking', bookingRouter);
+app.use('/api/review', reviewRouter);
 
 app.use(errorHandler);
 app.use(notFound);
