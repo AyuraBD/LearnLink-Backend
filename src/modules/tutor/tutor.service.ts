@@ -75,6 +75,12 @@ const getTutorProfile = async() => {
           description: true
         }
       },
+      user:{
+        select:{
+          name:true,
+          image:true
+        }
+      },
       _count: {
         select: {
           reviews: true
@@ -88,8 +94,8 @@ const getTutorProfile = async() => {
       }
     }
   });
-  return result;
-}
+    return result;
+  }
 
 const getTutorDetails = async(id:string)=>{
   return await prisma.tutorProfile.findUniqueOrThrow({
@@ -102,6 +108,12 @@ const getTutorDetails = async(id:string)=>{
       hourlyRate:true,
       experience: true,
       availability: true,
+      user:{
+        select:{
+          name:true,
+          image:true
+        }
+      },
       category:{
         select:{
           name: true,
