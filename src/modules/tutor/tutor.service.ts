@@ -149,7 +149,7 @@ const createTutorProfile = async(userId: string, data:Omit<TutorProfile, 'id' | 
   });
 
   if(tutorData){
-    throw new Error("Tutor profile already exist");
+    throw new Error("Tutor profile is already exist");
   }
   
   return await prisma.tutorProfile.create({
