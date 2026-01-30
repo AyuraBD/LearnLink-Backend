@@ -6,6 +6,7 @@ const getBooking = async(userId:string, userRole: string)=>{
   if(userRole === UserRole.ADMIN){
     const bookingForAdmin = await prisma.booking.findMany({
       select:{
+        id:true,
         sessionDate:true,
         status: true,
         student:{

@@ -37,8 +37,22 @@ const updateUser = async(req: Request, res: Response, next: NextFunction)=>{
   }
 }
 
+const updateOwnUser = async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const user = req.user;
+    const data = req.body;
+    const result = await userService.updateOwnUser(user?.id as string, data);
+    res.status(200).json({
+      result
+    })
+  }catch(err){
+    next(err);
+  }
+}
+
 export const userController = {
   getUser,
   updateUser,
-  getMyUser
+  getMyUser,
+  updateOwnUser
 }

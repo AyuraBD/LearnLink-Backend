@@ -39,9 +39,10 @@ const authMiddleware = (...roles:UserRole[])=>{
       req.user = {
         id: session.user.id,
         email: session.user.email,
-        role: session.user.role,
+        role: session.user.role as UserRole,
         emailVerified: session.user.emailVerified
       }
+      
       if(roles.length && !roles.includes(req.user.role as UserRole)){
         return res.status(401).json({
           message: "Forbidden access"
