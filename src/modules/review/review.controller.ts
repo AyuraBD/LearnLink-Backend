@@ -13,6 +13,18 @@ const getReview = async(req: Request, res: Response, next: NextFunction)=>{
   }
 }
 
+const getOwnReview = async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const user = req.user;
+    const result = await reviewService.getOwnReview(user?.id as string);
+    res.status(200).json({
+      result
+    });
+  }catch(err){
+    next(err);
+  }
+}
+
 const createReview = async(req: Request, res: Response, next: NextFunction)=>{
   try{
     const user = req.user;
@@ -28,6 +40,7 @@ const createReview = async(req: Request, res: Response, next: NextFunction)=>{
 
 export const reviewController = {
   getReview,
-  createReview
+  createReview,
+  getOwnReview
 }
 

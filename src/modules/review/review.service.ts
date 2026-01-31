@@ -1,6 +1,5 @@
 import { Review } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma"
-import { UserRole } from "../../middleware/auth";
 
 const getReview = async(paramId:string)=>{
   return await prisma.review.findMany({
@@ -8,6 +7,42 @@ const getReview = async(paramId:string)=>{
       tutorId: paramId
     }
   });
+}
+
+const getOwnReview = async(id:string)=>{
+  const tutorData = await prisma.tutorProfile.findUniqueOrThrow({
+    where:{
+      userId: id
+    },
+    select:{
+      id:true
+    }
+  })
+  return await prisma.review.findMany({
+    where:{
+      tutorId: tutorData.id
+    },
+    select:{
+      id:true,
+      rating: true,
+      comment:true,
+      student:{
+        select:{
+          name:true
+        }
+      },
+      tutor:{
+        select:{
+          category:{
+            select:{
+              name:true,
+              subject:true,
+            }
+          }
+        }
+      }
+    }
+  })
 }
 
 const createReview = async(userId:string, paramId:string, data:Omit<Review, 'id' | 'createdAt' | 'studentId' | "tutorId">)=>{
@@ -30,9 +65,8 @@ const createReview = async(userId:string, paramId:string, data:Omit<Review, 'id'
   return result;
 }
 
-
-
 export const reviewService = {
   getReview,
-  createReview
+  createReview,
+  getOwnReview
 }

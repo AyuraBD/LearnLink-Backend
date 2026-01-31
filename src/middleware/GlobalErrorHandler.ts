@@ -15,13 +15,11 @@ function errorHandler(
   let errorMessage = "Internal server error";
   let errorDetails = err;
 
-  // Prisma Validation Error
   if (err instanceof Prisma.PrismaClientValidationError) {
     statusCode = 400;
     errorMessage = "Invalid or missing input fields.";
   }
 
-  // Prisma Known Request Errors
   else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     switch (err.code) {
       case "P2000":
@@ -56,19 +54,16 @@ function errorHandler(
     }
   }
 
-  // Unknown Prisma Error
   else if (err instanceof Prisma.PrismaClientUnknownRequestError) {
     statusCode = 500;
     errorMessage = "Unexpected database error occurred.";
   }
 
-  // Prisma Engine Panic
   else if (err instanceof Prisma.PrismaClientRustPanicError) {
     statusCode = 500;
     errorMessage = "Database engine crashed.";
   }
 
-  // Prisma Initialization Errors
   else if (err instanceof Prisma.PrismaClientInitializationError) {
     switch (err.errorCode) {
       case "P1000":

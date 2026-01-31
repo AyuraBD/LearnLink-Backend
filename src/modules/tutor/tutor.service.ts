@@ -127,6 +127,30 @@ const getTutorDetails = async(id:string)=>{
   
 }
 
+const getOwnTutorDetails = async(id:string)=>{
+  return await prisma.tutorProfile.findUniqueOrThrow({
+    where:{
+      userId:id
+    },
+    select:{
+      id:true,
+      bio:true,
+      hourlyRate:true,
+      experience: true,
+      availability: true,
+      category:{
+        select:{
+          id:true,
+          name: true,
+          subject: true,
+          description: true
+        }
+      }
+    }
+  });
+  
+}
+
 const createTutorProfile = async(userId: string, data:Omit<TutorProfile, 'id' | 'createdAt' | 'updatedAt' | 'userId'>)=>{
   const userData = await prisma.user.findUniqueOrThrow({
     where:{
@@ -140,7 +164,7 @@ const createTutorProfile = async(userId: string, data:Omit<TutorProfile, 'id' | 
     throw new Error("User not found");
   }
   if(userData.role !== UserRole.TUTOR){
-    throw new Error("You are not allowed to create a tutor profile");
+    return new Error("You are not allowed to create a tutor profile");
   }
   const tutorData = await prisma.tutorProfile.findUnique({
     where:{
@@ -148,8 +172,8 @@ const createTutorProfile = async(userId: string, data:Omit<TutorProfile, 'id' | 
     }
   });
 
-  if(tutorData){
-    throw new Error("Tutor profile is already exist");
+  if (tutorData) {
+    return {data:null, error:{message:"Tutor profile is already exist"}}
   }
   
   return await prisma.tutorProfile.create({
@@ -218,5 +242,6 @@ export const tutorService = {
   createTutorProfile,
   updateTutorProfile,
   deleteTutorProfile,
-  getTutorDetails
+  getTutorDetails,
+  getOwnTutorDetails
 }

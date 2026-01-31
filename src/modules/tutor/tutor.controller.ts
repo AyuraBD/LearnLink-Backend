@@ -30,6 +30,18 @@ const getTutorDetails = async(req: Request, res: Response, next: NextFunction)=>
   }
 }
 
+const getOwnTutorDetails = async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const user = req.user;
+    const result = await tutorService.getOwnTutorDetails(user?.id as string);
+    res.status(200).json({
+      result
+    });
+  }catch(err){
+    next(err);
+  }
+}
+
 const createTutorProfile = async(req: Request, res: Response, next: NextFunction)=>{
   try{
     const user = req.user;
@@ -68,6 +80,7 @@ const deleteTutorProfile = async(req: Request, res: Response, next: NextFunction
 
 export const tutorController = {
   getTutorProfile,
+  getOwnTutorDetails,
   createTutorProfile,
   updateTutorProfile,
   deleteTutorProfile,

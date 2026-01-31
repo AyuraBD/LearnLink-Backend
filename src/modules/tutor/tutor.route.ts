@@ -5,9 +5,10 @@ import authMiddleware, { UserRole } from '../../middleware/auth';
 const router = express.Router();
 
 router.get('/', tutorController.getTutorProfile);
+router.get('/me', authMiddleware(UserRole.TUTOR), tutorController.getOwnTutorDetails);
 router.get('/:id', tutorController.getTutorDetails);
 router.post('/create', authMiddleware(UserRole.TUTOR), tutorController.createTutorProfile);
 router.patch('/update', authMiddleware(UserRole.TUTOR), tutorController.updateTutorProfile);
-router.patch('/delete', authMiddleware(UserRole.TUTOR), tutorController.deleteTutorProfile);
+router.delete('/delete', authMiddleware(UserRole.TUTOR), tutorController.deleteTutorProfile);
 
 export const tutorRouter = router
