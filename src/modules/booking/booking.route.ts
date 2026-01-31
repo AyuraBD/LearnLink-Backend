@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", authMiddleware(UserRole.ADMIN, UserRole.STUDENT, UserRole.TUTOR), bookingController.getBooking);
 
-router.post("/:id", authMiddleware(UserRole.STUDENT), bookingController.createBooking);
+router.post("/:id", authMiddleware(UserRole.STUDENT, UserRole.ADMIN, UserRole.TUTOR), bookingController.createBooking);
 
 router.patch("/:id", authMiddleware(UserRole.TUTOR), bookingController.updateBooking);
 

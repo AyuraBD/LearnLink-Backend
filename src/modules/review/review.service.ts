@@ -46,22 +46,44 @@ const getOwnReview = async(id:string)=>{
 }
 
 const createReview = async(userId:string, paramId:string, data:Omit<Review, 'id' | 'createdAt' | 'studentId' | "tutorId">)=>{
+  // console.log(userId, paramId, data)
   const bookingData = await prisma.booking.findFirst({
     where:{
       studentId: userId,
-      tutorId: paramId
+      id: paramId
     },
     select:{
-      status:true
+      status:true,
+      tutor:{
+        select:{
+          id:true
+        }
+      }
     }
   });
+  console.log(bookingData)
+  // if(bookingData?.status !== "CONFIRMED"){
+  //   throw new Error("Your booking have to be confirmed")
+  // }
+  console.log("Hit", data);
   const result = await prisma.review.create({
     data:{
       ...data,
       studentId:userId,
-      tutorId: paramId
+      tutorId: bookingData?.tutor.id
     }
   });
+  console.log('Anything:',result);
+  if(result){
+    await prisma.booking.update({
+      where:{
+        id:paramId
+      },
+      data:{
+        status: "COMPLETED"
+      }
+    })
+  }
   return result;
 }
 

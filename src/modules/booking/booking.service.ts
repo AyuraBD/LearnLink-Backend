@@ -43,6 +43,7 @@ const getBooking = async(userId:string, userRole: string)=>{
         tutorId: tutorData.id
       },
       select:{
+        id:true,
         sessionDate:true,
         status: true,
         student:{
@@ -60,10 +61,13 @@ const getBooking = async(userId:string, userRole: string)=>{
         studentId: userId
       },
       select:{
+        id:true,
         sessionDate:true,
         status: true,
+        createdAt:true,
         tutor:{
           select:{
+            id:true,
             user:{
               select:{
                 name:true,
@@ -88,8 +92,10 @@ const createBooking = async(userId:string, paramId:string, data:Omit<Booking, 'i
       tutorId: paramId
     }
   });
-  console.log(result)
-  return result;
+  if(!result){
+    return {data:null, error:{message: "Couldn't book a session"}}
+  }
+  return {data:result, error:null};
 }
 
 const updateBooking = async(userId:string, paramId:string, data:Partial<Booking>)=>{

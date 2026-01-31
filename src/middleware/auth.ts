@@ -28,12 +28,13 @@ const authMiddleware = (...roles:UserRole[])=>{
       });
       if(!session){
         return res.status(401).json({
-          message: "Unauthorized"
+          data:null, error:{message: "Unauthorized"}
         })
       }
+      
       if(!session.user.emailVerified){
         return res.status(401).json({
-          message: "Email Verification is required."
+          data:null, error:{message: "Email Verification is required."}
         })
       }
       req.user = {
@@ -45,7 +46,7 @@ const authMiddleware = (...roles:UserRole[])=>{
       
       if(roles.length && !roles.includes(req.user.role as UserRole)){
         return res.status(401).json({
-          message: "Forbidden access"
+          data:null, error:{message: "Forbidden access"}
         })
       }
       next();
