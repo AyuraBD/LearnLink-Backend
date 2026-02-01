@@ -1,0 +1,10 @@
+import express from 'express';
+import { userController } from './user.controller';
+import authMiddleware, { UserRole } from '../../middleware/auth';
+const router = express.Router();
+router.get('/me', authMiddleware(UserRole.ADMIN, UserRole.STUDENT, UserRole.TUTOR), userController.getMyUser);
+router.patch('/me', authMiddleware(UserRole.ADMIN, UserRole.STUDENT, UserRole.TUTOR), userController.updateOwnUser);
+router.get('/', authMiddleware(UserRole.ADMIN), userController.getUser);
+router.patch('/:id', authMiddleware(UserRole.ADMIN), userController.updateUser);
+export const userRouter = router;
+//# sourceMappingURL=user.route.js.map

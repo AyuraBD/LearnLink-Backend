@@ -9,6 +9,7 @@
   "scripts": {
     "test": "hello world",
     "dev": "npx tsx watch src/server.ts",
+    "build": "tsc",
     "seed:admin": "npx tsx src/scripts/seedAdmin.ts"
   },
   "devDependencies": {
