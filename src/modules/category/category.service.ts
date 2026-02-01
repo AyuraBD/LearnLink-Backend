@@ -21,6 +21,7 @@ const updateCategory = async(paramId:string,data: Partial<Category>)=>{
   });
 }
 const deleteCategory = async(paramId:string)=>{
+  console.log("delete")
   return await prisma.category.delete({
     where:{
       id: paramId

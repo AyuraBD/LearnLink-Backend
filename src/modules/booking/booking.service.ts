@@ -84,7 +84,10 @@ const getBooking = async(userId:string, userRole: string)=>{
   }
 }
 
-const createBooking = async(userId:string, paramId:string, data:Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>)=>{
+const createBooking = async(userId:string, role:string, paramId:string, data:Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>)=>{
+  if(role !== "STUDENT"){
+    return {data:null, error:{message:"Session can be booked by Student only."}}
+  }
   const result = await prisma.booking.create({
     data:{
       ...data,

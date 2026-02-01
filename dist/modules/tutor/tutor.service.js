@@ -1,0 +1,232 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tutorService = void 0;
+const prisma_1 = require("../../lib/prisma");
+const auth_1 = require("../../middleware/auth");
+const getTutorProfile = async () => {
+    // const filterValues: TutorProfileWhereInput[] = [];
+    // if(search){
+    //   filterValues.push({
+    //     OR:[
+    //       {
+    //         category: {
+    //           name: {
+    //             contains: search,
+    //             mode: 'insensitive'
+    //           }
+    //         }
+    //       },
+    // {
+    //   category: {
+    //     subject:{
+    //       contains: category,
+    //       mode: 'insensitive'
+    //     }
+    //   }
+    // },
+    // {
+    //   reviews:{
+    //     rating:{
+    //     }
+    //   }
+    // }
+    //     ]
+    //   });
+    // }
+    // if(rating){
+    //   filterValues.push({
+    //     rating: {
+    //       gte: rating  // greater than or equal to the rating
+    //     }
+    //   });
+    // }
+    // if(price){
+    //   filterValues.push({
+    //     hourlyRate: {  // Changed from 'price' to 'hourlyRate' based on your select
+    //       lte: price  // less than or equal to the price
+    //     }
+    //   });
+    // }
+    // if(category){
+    //   filterValues.push({
+    //     categoryId: category  // Assuming you have a categoryId foreign key
+    //   });
+    // }
+    const result = await prisma_1.prisma.tutorProfile.findMany({
+        // where: {
+        //   AND: filterValues  // Changed from 'searchValues' to 'filterValues'
+        // },
+        select: {
+            id: true,
+            bio: true,
+            hourlyRate: true,
+            experience: true,
+            availability: true,
+            category: {
+                select: {
+                    name: true,
+                    subject: true,
+                    description: true
+                }
+            },
+            user: {
+                select: {
+                    name: true,
+                    image: true
+                }
+            },
+            _count: {
+                select: {
+                    reviews: true
+                }
+            },
+            reviews: {
+                select: {
+                    rating: true,
+                    comment: true
+                }
+            }
+        }
+    });
+    return result;
+};
+const getTutorDetails = async (id) => {
+    return await prisma_1.prisma.tutorProfile.findUniqueOrThrow({
+        where: {
+            id
+        },
+        select: {
+            id: true,
+            bio: true,
+            hourlyRate: true,
+            experience: true,
+            availability: true,
+            user: {
+                select: {
+                    name: true,
+                    image: true
+                }
+            },
+            category: {
+                select: {
+                    name: true,
+                    subject: true,
+                    description: true
+                }
+            },
+            reviews: true
+        }
+    });
+};
+const getOwnTutorDetails = async (id) => {
+    return await prisma_1.prisma.tutorProfile.findUniqueOrThrow({
+        where: {
+            userId: id
+        },
+        select: {
+            id: true,
+            bio: true,
+            hourlyRate: true,
+            experience: true,
+            availability: true,
+            category: {
+                select: {
+                    id: true,
+                    name: true,
+                    subject: true,
+                    description: true
+                }
+            }
+        }
+    });
+};
+const createTutorProfile = async (userId, data) => {
+    const userData = await prisma_1.prisma.user.findUniqueOrThrow({
+        where: {
+            id: userId
+        },
+        select: {
+            role: true
+        }
+    });
+    if (!userData) {
+        throw new Error("User not found");
+    }
+    if (userData.role !== auth_1.UserRole.TUTOR) {
+        return new Error("You are not allowed to create a tutor profile");
+    }
+    const tutorData = await prisma_1.prisma.tutorProfile.findUnique({
+        where: {
+            userId
+        }
+    });
+    if (tutorData) {
+        return { data: null, error: { message: "Tutor profile is already exist" } };
+    }
+    return await prisma_1.prisma.tutorProfile.create({
+        data: {
+            ...data,
+            userId,
+        },
+        select: {
+            id: true,
+            userId: true
+        }
+    });
+};
+const updateTutorProfile = async (userId, data) => {
+    const tutorData = await prisma_1.prisma.tutorProfile.findUniqueOrThrow({
+        where: {
+            userId
+        },
+        select: {
+            id: true,
+            userId: true
+        }
+    });
+    if (tutorData.userId !== userId) {
+        throw new Error("Invalid access");
+    }
+    return await prisma_1.prisma.tutorProfile.update({
+        where: {
+            id: tutorData.id
+        },
+        data,
+        select: {
+            id: true,
+            userId: true
+        }
+    });
+};
+const deleteTutorProfile = async (userId) => {
+    const tutorData = await prisma_1.prisma.tutorProfile.findUniqueOrThrow({
+        where: {
+            userId
+        },
+        select: {
+            id: true,
+            userId: true
+        }
+    });
+    if (tutorData.userId !== userId) {
+        throw new Error("Invalid access");
+    }
+    return await prisma_1.prisma.tutorProfile.delete({
+        where: {
+            id: tutorData.id
+        },
+        select: {
+            id: true,
+            userId: true
+        }
+    });
+};
+exports.tutorService = {
+    getTutorProfile,
+    createTutorProfile,
+    updateTutorProfile,
+    deleteTutorProfile,
+    getTutorDetails,
+    getOwnTutorDetails
+};
+//# sourceMappingURL=tutor.service.js.map

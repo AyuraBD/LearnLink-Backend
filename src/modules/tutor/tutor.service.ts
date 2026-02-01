@@ -161,10 +161,10 @@ const createTutorProfile = async(userId: string, data:Omit<TutorProfile, 'id' | 
     }
   });
   if (!userData) {
-    throw new Error("User not found");
+    return {data:null, error:{message:"User not found"}}
   }
   if(userData.role !== UserRole.TUTOR){
-    return new Error("You are not allowed to create a tutor profile");
+    return {data:null, error:{message:"You are not allowed to create a tutor profile"}}
   }
   const tutorData = await prisma.tutorProfile.findUnique({
     where:{
@@ -226,7 +226,7 @@ const deleteTutorProfile = async(userId:string)=>{
   if (tutorData.userId !== userId) {
     throw new Error("Invalid access");
   }
-  return await prisma.tutorProfile.delete({
+  const res = await prisma.tutorProfile.delete({
     where:{
       id: tutorData.id
     },
@@ -235,6 +235,7 @@ const deleteTutorProfile = async(userId:string)=>{
       userId: true
     }
   });
+  return res;
 }
 
 export const tutorService = {
