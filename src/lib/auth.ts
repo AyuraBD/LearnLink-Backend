@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const auth = betterAuth({
+    baseURL: process.env.BETTER_AUTH_URL || "http://localhost:5000",
     database: prismaAdapter(prisma, {
         provider: "postgresql", // or "mysql", "postgresql", ...etc
     }),
@@ -137,5 +138,20 @@ export const auth = betterAuth({
                 throw new Error(err.message);
             }
         }
-    }
+    },
+// Extra added
+    session: {
+        cookieCache: {
+        enabled: true,
+        maxAge: 5 * 60, // 5 minutes
+        },
+    },
+    advanced: {
+        cookiePrefix: "better-auth",
+        useSecureCookies: process.env.NODE_ENV === "production",
+        crossSubDomainCookies: {
+        enabled: false,
+        },
+        disableCSRFCheck: true, // Allow requests without Origin header (Postman, mobile apps, etc.)
+    },
 });

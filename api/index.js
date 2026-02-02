@@ -361,7 +361,6 @@ var auth = betterAuth({
                             </div>
                             </body>
                             </html>`
-          // HTML version of the message
         });
       } catch (err) {
         throw new Error(err.message);
@@ -995,6 +994,7 @@ var updateBooking = async (userId, paramId, data) => {
     }
   });
   if (bookingData?.tutor.user.role !== "TUTOR" /* TUTOR */) {
+    console.log("Unauthorized");
   }
   if (bookingData?.tutor.user.id !== userId) {
     throw new Error("Forbidden access");
