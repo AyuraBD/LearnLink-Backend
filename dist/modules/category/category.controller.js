@@ -15,7 +15,6 @@ const getCategory = async (req, res, next) => {
 };
 const createCategory = async (req, res, next) => {
     try {
-        console.log(req.body);
         const result = await category_service_1.categoryService.createCategory(req.body);
         res.status(201).json({
             result

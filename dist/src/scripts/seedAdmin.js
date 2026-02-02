@@ -37,8 +37,6 @@ async function seedAdmin() {
                 emailVerified: true
             }
         });
-        console.log(res);
-        console.log("User created successully");
     }
     catch (err) {
         console.log(err);

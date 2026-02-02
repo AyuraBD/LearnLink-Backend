@@ -43,7 +43,6 @@ export const auth = betterAuth({
         autoSignInAfterVerification: true,
         sendVerificationEmail: async ({user, url, token})=>{
             try{
-                // console.log("User:", user, "URL:", url, "Token", token);
                 const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`
                 const info = await transporter.sendMail({
                 from: '"LearnLink" <LearnLink@gmail.com>',
@@ -131,9 +130,8 @@ export const auth = betterAuth({
                                 </div>
                             </div>
                             </body>
-                            </html>`, // HTML version of the message
+                            </html>`,
                         });
-                        // console.log("Verification Info", info)
             }catch(err:any){
                 // console.error(err.message);
                 throw new Error(err.message);

@@ -59,13 +59,10 @@ const createReview = async (userId, paramId, data) => {
             }
         }
     });
-    console.log(bookingData);
     if (!bookingData) {
         return;
     }
-    // if(bookingData?.status !== "CONFIRMED"){
-    //   throw new Error("Your booking have to be confirmed")
-    // }
+    
     const result = await prisma_1.prisma.review.create({
         data: {
             ...data,

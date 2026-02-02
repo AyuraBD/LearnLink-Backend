@@ -10,7 +10,6 @@ async function main() {
       console.log(`Express server is running on port: ${PORT}`)
     })
   }catch(err:any){
-    console.log(`Error occured:`, err.message);
     await prisma.$disconnect();
     process.exit(1);
   }

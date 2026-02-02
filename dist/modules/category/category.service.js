@@ -10,7 +10,6 @@ const createCategory = async (data) => {
     const res = await prisma_1.prisma.category.create({
         data
     });
-    console.log(res);
     return res;
 };
 const updateCategory = async (paramId, data) => {

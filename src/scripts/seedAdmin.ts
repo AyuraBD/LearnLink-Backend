@@ -9,7 +9,6 @@ async function seedAdmin() {
       password: "admin1234",
       role: UserRole.ADMIN
     }
-    console.log(adminData);
 
     const existingUser = await prisma.user.findUnique({
       where:{
@@ -19,7 +18,7 @@ async function seedAdmin() {
     if(existingUser){
       throw new Error("User is already exist");
     }
-    const res = await fetch("http://localhost:5000/api/auth/sign-up/email", {
+    const res = await fetch("https://learnlink-iota.vercel.app/api/auth/sign-up/email", {
       method:"POST",
       headers:{
         "Content-type": "application/json"
@@ -27,7 +26,6 @@ async function seedAdmin() {
       body: JSON.stringify(adminData)
     });
     const data = await res.json();
-    console.log(data);
 
     if(!res.ok){
       throw new Error("Admin creating failed");
@@ -40,8 +38,6 @@ async function seedAdmin() {
         emailVerified: true
       }
     });
-    console.log(res);
-    console.log("User created successully")
 
   }catch(err){
     console.log(err);

@@ -121,7 +121,6 @@ const updateBooking = async (userId, paramId, data) => {
         }
     });
     if (bookingData?.tutor.user.role !== auth_1.UserRole.TUTOR) {
-        console.log("Unauthorized");
     }
     if (bookingData?.tutor.user.id !== userId) {
         throw new Error("Forbidden access");

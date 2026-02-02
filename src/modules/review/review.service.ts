@@ -70,7 +70,6 @@ const createReview = async(userId:string, paramId:string, data:Omit<Review, 'id'
       }
     }
   });
-  console.log(bookingData)
   if(!bookingData){
     return
   }

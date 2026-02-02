@@ -10,7 +10,6 @@ async function seedAdmin() {
             password: "admin1234",
             role: auth_1.UserRole.ADMIN
         };
-        console.log(adminData);
         const existingUser = await prisma_1.prisma.user.findUnique({
             where: {
                 email: adminData.email
@@ -27,7 +26,6 @@ async function seedAdmin() {
             body: JSON.stringify(adminData)
         });
         const data = await res.json();
-        console.log(data);
         if (!res.ok) {
             throw new Error("Admin creating failed");
         }
@@ -39,8 +37,6 @@ async function seedAdmin() {
                 emailVerified: true
             }
         });
-        console.log(res);
-        console.log("User created successully");
     }
     catch (err) {
         console.log(err);

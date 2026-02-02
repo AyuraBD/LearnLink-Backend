@@ -9,7 +9,6 @@ const createCategory = async(data: Omit<Category, 'id' | 'createdAt'>)=>{
   const res = await prisma.category.create({
     data
   })
-  console.log(res);
   return res;
 }
 const updateCategory = async(paramId:string,data: Partial<Category>)=>{
@@ -21,7 +20,6 @@ const updateCategory = async(paramId:string,data: Partial<Category>)=>{
   });
 }
 const deleteCategory = async(paramId:string)=>{
-  console.log("delete")
   return await prisma.category.delete({
     where:{
       id: paramId
