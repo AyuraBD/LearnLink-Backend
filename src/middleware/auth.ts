@@ -21,7 +21,6 @@ declare global {
 }
 
 const authMiddleware = (...roles:UserRole[])=>{
-  console.log("Auth")
   return async(req: Request, res: Response, next: NextFunction) =>{
     try{
       const session = await auth.api.getSession({

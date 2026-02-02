@@ -4,12 +4,12 @@ import { number } from "better-auth/*";
 
 const getTutorProfile = async(req: Request, res: Response, next: NextFunction)=>{
   try{
-    // const {search} = req.params;
+    const {search} = req.query;
     // const searchString = typeof search === 'string' ? search : undefined;
     // const rating = req.params.rating as number | undefined;
     // const price = req.params.price  as number | undefined;
     // const category = req.params.category as string | undefined;
-    const result = await tutorService.getTutorProfile();
+    const result = await tutorService.getTutorProfile(search as string);
     res.status(200).json({
       result
     });

@@ -18,7 +18,6 @@ const createBooking = async(req: Request, res: Response, next: NextFunction)=>{
     const user = req.user;
     const {id} = req.params;
     const result = await bookingService.createBooking(user?.id as string, user?.role as string, id as string, req.body);
-    console.log(result)
     res.status(200).json({
       result
     });

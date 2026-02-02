@@ -5,6 +5,16 @@ const getReview = async(paramId:string)=>{
   return await prisma.review.findMany({
     where:{
       tutorId: paramId
+    },
+    select:{
+      id: true,
+      rating: true,
+      comment: true,
+      student:{
+        select:{
+          name:true
+        }
+      }
     }
   });
 }
